@@ -5,6 +5,7 @@ This is a simple implementation of Conways Game of Life written in JavaScript. T
 On the canvas a living cell is represented by a green rectangle, whereas a dead one is white. The array represents them as 1 (alive) or 0 (dead).
 
 The game rules are simple:
+--------------
 - Any live cell with fewer than two live neighbors dies, as if caused by under population.
 - Any live cell with two or three live neighbors lives on to the next generation.
 - Any live cell with more than three live neighbors dies, as if by overpopulation.
