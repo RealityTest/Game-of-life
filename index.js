@@ -113,11 +113,15 @@ function updateGrid(){
     }
 }
 
+var mouseDown = false;
+var mouseBtn;
 c.addEventListener('contextmenu', event => event.preventDefault());
 c.onmousedown = function(e){
+    mouseDown = true;
+    mouseBtn = e.button;
     var x = event.offsetX;
     var y = event.offsetY;
-    if(e.button == 0){
+    if(mouseBtn == 0){
         ctx.fillRect(Math.floor(x/cellSize)*cellSize, Math.floor(y/cellSize)*cellSize, cellSize, cellSize);
         cells[Math.floor(x/cellSize)][Math.floor(y/cellSize)] = 1;
     }
@@ -127,6 +131,23 @@ c.onmousedown = function(e){
     }
     
     console.log("x coords: " + x + ", y coords: " + y);
+}
+c.onmousemove = function(e){
+    if(mouseDown){
+        var x = event.offsetX;
+        var y = event.offsetY;
+        if(mouseBtn == 0){
+            ctx.fillRect(Math.floor(x/cellSize)*cellSize, Math.floor(y/cellSize)*cellSize, cellSize, cellSize);
+            cells[Math.floor(x/cellSize)][Math.floor(y/cellSize)] = 1;
+        }
+        else{
+            ctx.clearRect(Math.floor(x/cellSize)*cellSize, Math.floor(y/cellSize)*cellSize, cellSize, cellSize);
+            cells[Math.floor(x/cellSize)][Math.floor(y/cellSize)] = 0;
+        }
+    }
+}
+c.onmouseup = function(e){
+    mouseDown = false;
 }
 
 
