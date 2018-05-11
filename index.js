@@ -32,8 +32,8 @@ function fillRandom() {
 
 function drawGrid(){
     ctx.clearRect(0, 0, c.width, c.height);
-    for(var i = 1; i < cells.length - 1; i++){
-        for(var j = 1; j < cells[0].length - 1; j++){
+    for(var i = 0; i < cells.length; i++){
+        for(var j = 0; j < cells[0].length; j++){
             ctx.fillStyle = "#2BC016";
             if(cells[i][j]){
                 ctx.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
@@ -86,7 +86,7 @@ function updateGrid(){
                 switch (surroundingCells) {
                     case 0:
                     case 1:
-                        cellsMirror[i][j] = 0; //die of lonelines
+                        cellsMirror[i][j] = 0; //die of loneliness
                         break;
                     case 2:
                     case 3:

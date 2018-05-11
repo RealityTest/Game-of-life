@@ -2,6 +2,7 @@ canvas {
     display: block;
     margin: 0 auto;
     margin-top:4em;
+    border: 1px solid black;
 }
 
 #control{
