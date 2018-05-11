@@ -3,6 +3,7 @@ var ctx=c.getContext("2d");
 var gridHeight = 150;
 var gridWidth = 300;
 var cellSize = 5;
+var generation = 0;
 var cells = createArray(gridWidth);
 var cellsMirror = createArray(gridWidth);
 
@@ -40,6 +41,12 @@ function drawGrid(){
             }
         }
     }
+}
+
+var generationCounter = document.getElementById("generation_count");
+function updateGeneration(){
+    generation++;
+    generationCounter.innerHTML = "Generation: " + generation;
 }
 
 function updateGrid(){
@@ -155,12 +162,10 @@ var paused = false;
 var pauseBtn = document.getElementById("btn_pause");
 pauseBtn.onclick = function(e){
     if(paused){
-        paused = false;
-        pauseBtn.innerHTML = "Pause";
+        unpauseGame();
     }
     else{
-        paused = true;
-        pauseBtn.innerHTML = "Resume";
+        pauseGame();
     }
 }
 var clearBtn = document.getElementById("btn_clear");
@@ -172,14 +177,26 @@ clearBtn.onclick = function(e){
         }
     }
     //Pause on Clear
+    pauseGame();
+}
+
+function pauseGame(){
     paused = true;
     pauseBtn.innerHTML = "Resume";
+    pauseBtn.style.backgroundColor = "#C9302C";
+}
+
+function unpauseGame(){
+    paused = false;
+    pauseBtn.innerHTML = "Pause";
+    pauseBtn.style.backgroundColor = "#4CAF50";
 }
 
 function run(){
     if(!paused){
         drawGrid();
         updateGrid();
+        updateGeneration();
     }
     requestAnimationFrame(run);
 }
