@@ -1,5 +1,7 @@
-var c=document.getElementById("canvas");
-var ctx=c.getContext("2d");
+var c = document.getElementById("canvas");
+var cTop = document.getElementById("canvas_top");
+var ctx = c.getContext("2d");
+var ctxTop = cTop.getContext("2d");
 var gridHeight = 150;
 var gridWidth = 300;
 var cellSize = 5;
@@ -19,7 +21,7 @@ function createArray(rows){
 function fillRandom() { 
     for (var i = 0; i < gridWidth; i++) { 
         for (var j = 0; j < gridHeight; j++) { 
-            if(Math.random() > 0.6){
+            if(Math.random() > 0.8){
                 cells[i][j] = 1;
                 cellsMirror[i][j] = 1;
             }
@@ -28,6 +30,19 @@ function fillRandom() {
                 cellsMirror[i][j] = 0;
             }
         }
+    }
+}
+
+var drawLines = false;
+
+var btnGrid = document.getElementById("btn_grid");
+btnGrid.onclick = function(e){
+    drawLines = !drawLines;
+    if(drawLines){
+        drawGridLines();
+    }
+    else{
+        ctxTop.clearRect(0, 0, c.width, c.height); 
     }
 }
 
@@ -42,6 +57,23 @@ function drawGrid(){
         }
     }
 }
+
+function drawGridLines() {
+    ctxTop.clearRect(0, 0, c.width, c.height);
+    ctxTop.lineWidth = 0.5;
+    ctxTop.strokeStyle = "#d3d3d3";
+    ctxTop.beginPath();
+    for (var i = 0; i < cells.length; i++) {
+        ctxTop.moveTo(i*cellSize, 0);
+        ctxTop.lineTo(i*cellSize, gridHeight*cellSize);
+    }
+    // foreach row
+    for (var j = 0; j <= cells[0].length; j++) {
+        ctxTop.moveTo(0, j*cellSize);
+        ctxTop.lineTo(gridWidth*cellSize, j*cellSize);
+    }
+    ctxTop.stroke();
+  }
 
 var generationCounter = document.getElementById("generation_count");
 function updateGeneration(){
@@ -122,8 +154,8 @@ function updateGrid(){
 
 var mouseDown = false;
 var mouseBtn;
-c.addEventListener('contextmenu', event => event.preventDefault());
-c.onmousedown = function(e){
+cTop.addEventListener('contextmenu', event => event.preventDefault());
+cTop.onmousedown = function(e){
     mouseDown = true;
     mouseBtn = e.button;
     var x = event.offsetX;
@@ -136,10 +168,9 @@ c.onmousedown = function(e){
         ctx.clearRect(Math.floor(x/cellSize)*cellSize, Math.floor(y/cellSize)*cellSize, cellSize, cellSize);
         cells[Math.floor(x/cellSize)][Math.floor(y/cellSize)] = 0;
     }
-    
     console.log("x coords: " + x + ", y coords: " + y);
 }
-c.onmousemove = function(e){
+cTop.onmousemove = function(e){
     if(mouseDown){
         var x = event.offsetX;
         var y = event.offsetY;
@@ -153,7 +184,7 @@ c.onmousemove = function(e){
         }
     }
 }
-c.onmouseup = function(e){
+cTop.onmouseup = function(e){
     mouseDown = false;
 }
 
@@ -170,14 +201,28 @@ pauseBtn.onclick = function(e){
 }
 var clearBtn = document.getElementById("btn_clear");
 clearBtn.onclick = function(e){
+    generation = 0;
+    updateGeneration();
     for(var i = 0; i < cells.length; i++){
         for(var j = 0; j < cells[0].length; j++){
             cells[i][j] = 0;
             ctx.clearRect(0, 0, c.width, c.height);
         }
     }
+    if(drawLines){
+        drawGridLines();
+    }
     //Pause on Clear
     pauseGame();
+}
+
+var randomBtn = document.getElementById("btn_random");
+randomBtn.onclick = function(e){
+    pauseGame();
+    fillRandom();
+    drawGrid();
+    generation = 0;
+    updateGeneration();
 }
 
 function pauseGame(){
@@ -194,8 +239,8 @@ function unpauseGame(){
 
 function run(){
     if(!paused){
-        drawGrid();
         updateGrid();
+        drawGrid();
         updateGeneration();
     }
     requestAnimationFrame(run);
@@ -204,4 +249,6 @@ function run(){
 fillRandom();
 c.setAttribute("height", gridHeight * cellSize);
 c.setAttribute("width", gridWidth * cellSize);
+cTop.setAttribute("height", gridHeight * cellSize);
+cTop.setAttribute("width", gridWidth * cellSize);
 run();
