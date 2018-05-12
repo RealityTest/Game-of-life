@@ -2,9 +2,9 @@ var c = document.getElementById("canvas");
 var cTop = document.getElementById("canvas_top");
 var ctx = c.getContext("2d");
 var ctxTop = cTop.getContext("2d");
-var gridHeight = 150;
-var gridWidth = 300;
 var cellSize = 5;
+var gridHeight = Math.floor((window.innerHeight / cellSize) * 0.8);
+var gridWidth = Math.floor((window.innerWidth / cellSize) * 0.8);
 var generation = 0;
 var cells = createArray(gridWidth);
 var cellsMirror = createArray(gridWidth);
@@ -32,6 +32,15 @@ function fillRandom() {
         }
     }
 }
+
+function fillEmpty(){
+    for (var i = 0; i < gridWidth; i++) { 
+        for (var j = 0; j < gridHeight; j++) { 
+            cells[i][j] = 0;
+        }
+    }
+}
+
 
 var drawLines = false;
 
@@ -252,3 +261,6 @@ c.setAttribute("width", gridWidth * cellSize);
 cTop.setAttribute("height", gridHeight * cellSize);
 cTop.setAttribute("width", gridWidth * cellSize);
 run();
+
+
+
