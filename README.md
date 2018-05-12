@@ -1,6 +1,6 @@
 Game of Life
 ======================
-This is a simple implementation of Conways Game of Life written in JavaScript. There's also a [demo](https://realitytest.github.io/Game-of-life/). Keep in mind that this is still in development. I will work on it whenever I find time to do so. You can leftclick and drag to create living cells or rightclick and drag to create dead cells.
+This is a simple implementation of Conways Game of Life written in JavaScript. There's also a [demo](https://realitytest.github.io/Game-of-life/). I will work on it whenever I find time to do so. You can left-click and drag to create living cells or right-click and drag to create dead cells.
 
 On the canvas a living cell is represented by a green rectangle, whereas a dead one is white. The array represents them as 1 (alive) or 0 (dead).
 
